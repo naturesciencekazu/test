@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katsu — 科学クリエイター × VTuber</title>
-  <meta name="description" content="触媒化学 M.Sc. の科学クリエイター。自然科学VTuberかず・カリウム（カリラボ）として活動中。">
+  <title>GitHub Pages で無料ホームページを公開しよう</title>
+  <meta name="description" content="Claude で HTML を作成し、GitHub Pages で無料公開するまでの完全ガイド。3ステップで自分だけのWebページを作れます。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -13,6 +13,7 @@
       --bg:       #090E17;
       --surface:  #111827;
       --surface2: #192236;
+      --surface3: #1E2D45;
       --accent-c: #3AFFD4;
       --accent-v: #9B7FFF;
       --text:     #DDE8F2;
@@ -25,9 +26,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -54,7 +53,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.85;
+      opacity: 0.75;
     }
 
     .hero-content {
@@ -65,6 +64,7 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
+      max-width: 800px;
     }
 
     .hero-label {
@@ -76,40 +76,52 @@
       opacity: 0.8;
     }
 
-    .hero-name {
+    .hero-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(64px, 12vw, 120px);
+      font-size: clamp(32px, 6vw, 64px);
       font-weight: 800;
-      line-height: 0.9;
-      letter-spacing: -0.02em;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       color: var(--text);
-      text-shadow: 0 0 60px rgba(58, 255, 212, 0.15);
+      text-shadow: 0 0 60px rgba(58, 255, 212, 0.12);
+      text-wrap: balance;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent-c);
     }
 
     .hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.7;
+      max-width: 52ch;
+    }
+
+    .hero-badges {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--dim);
-      letter-spacing: 0.04em;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .hero-sub .sep {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .hero-mono {
+    .badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      border: 1px solid var(--border-c);
+      background: var(--glow-c);
+      color: var(--accent-c);
+    }
+    .badge.violet {
+      border-color: var(--border-v);
+      background: var(--glow-v);
       color: var(--accent-v);
-      opacity: 0.7;
-      letter-spacing: 0.06em;
     }
 
     .hero-scroll {
@@ -134,7 +146,6 @@
       background: linear-gradient(to bottom, var(--accent-c), transparent);
       animation: scroll-pulse 2s ease-in-out infinite;
     }
-
     @keyframes scroll-pulse {
       0%, 100% { opacity: 0.3; transform: scaleY(1); }
       50%       { opacity: 0.9; transform: scaleY(1.15); }
@@ -158,7 +169,6 @@
       align-items: center;
       gap: 12px;
     }
-
     .section-label::after {
       content: '';
       flex: 1;
@@ -166,206 +176,251 @@
       background: linear-gradient(to right, var(--surface2), transparent);
     }
 
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px 60px;
-      align-items: start;
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3.5vw, 30px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 24px;
+      line-height: 1.25;
     }
 
-    .about-text {
-      grid-column: 1 / -1;
-      font-size: 17px;
-      font-weight: 300;
+    /* ── OVERVIEW ── */
+    .overview-text {
+      font-size: 16px;
       line-height: 1.9;
       color: var(--text);
-      max-width: 62ch;
+      max-width: 66ch;
+      margin-bottom: 36px;
     }
+    .overview-text strong { font-weight: 500; color: #fff; }
 
-    .about-text strong {
-      font-weight: 500;
-      color: #fff;
-    }
-
-    .stats {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .stat-row {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-
-    .stat-key {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      text-transform: uppercase;
-      white-space: nowrap;
-      min-width: 80px;
-    }
-
-    .stat-val {
-      font-size: 13.5px;
-      color: var(--dim);
-      font-weight: 400;
-    }
-
-    .stat-val.hl { color: var(--accent-c); }
-
-    /* ── IDENTITY CARDS ── */
-    .cards {
+    .overview-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .card {
-      border: 1px solid;
-      border-radius: 4px;
-      padding: 36px 32px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--card-glow);
-      pointer-events: none;
-    }
-
-    .card.cyan   { --card-glow: var(--glow-c); border-color: var(--border-c); }
-    .card.violet { --card-glow: var(--glow-v); border-color: var(--border-v); }
-
-    .card-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-
-    .card.cyan   .card-eyebrow { color: var(--accent-c); }
-    .card.violet .card-eyebrow { color: var(--accent-v); }
-
-    .card-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: #fff;
-      text-wrap: balance;
-    }
-
-    .card-sub {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--dim);
-      margin-top: -8px;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.04em;
-    }
-
-    .card-desc {
-      font-size: 13.5px;
-      font-weight: 300;
-      color: var(--dim);
-      line-height: 1.85;
-      flex: 1;
-    }
-
-    .card-tags {
+    .ov-card {
+      padding: 24px 20px;
+      border: 1px solid var(--surface2);
+      border-radius: 4px;
+      background: var(--surface);
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 8px;
-      margin-top: 4px;
     }
 
-    .tag {
+    .ov-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .ov-num.c { color: var(--accent-c); }
+    .ov-num.v { color: var(--accent-v); }
+
+    .ov-title {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .ov-desc {
+      font-size: 12px;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+
+    /* ── STEP CARDS ── */
+    .step-card {
+      border: 1px solid;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .step-card.cyan   { border-color: var(--border-c); }
+    .step-card.violet { border-color: var(--border-v); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 28px;
+    }
+    .step-card.cyan   .step-header { background: rgba(58, 255, 212, 0.05); }
+    .step-card.violet .step-header { background: rgba(155, 127, 255, 0.05); }
+
+    .step-num-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .step-card.cyan   .step-num-badge { background: var(--accent-c); color: var(--bg); }
+    .step-card.violet .step-num-badge { background: var(--accent-v); color: #fff; }
+
+    .step-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.1em;
-      padding: 3px 9px;
-      border-radius: 2px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .step-card.cyan   .step-eyebrow { color: var(--accent-c); }
+    .step-card.violet .step-eyebrow { color: var(--accent-v); }
+
+    .step-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
     }
 
-    .card.cyan   .tag { background: rgba(58,255,212,0.08); color: var(--accent-c); border: 1px solid rgba(58,255,212,0.20); }
-    .card.violet .tag { background: rgba(155,127,255,0.08); color: var(--accent-v); border: 1px solid rgba(155,127,255,0.20); }
-
-    .card-accent-line {
-      position: absolute;
-      top: 0; left: 0;
-      height: 2px;
-      width: 48px;
+    .step-body {
+      padding: 24px 28px;
+      border-top: 1px solid var(--surface2);
     }
 
-    .card.cyan   .card-accent-line { background: var(--accent-c); box-shadow: 0 0 8px var(--accent-c); }
-    .card.violet .card-accent-line { background: var(--accent-v); box-shadow: 0 0 8px var(--accent-v); }
+    .step-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
 
-    /* ── LINKS ── */
-    .links-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    .step-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .step-bullet {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-card.cyan   .step-bullet { background: rgba(58,255,212,0.12); color: var(--accent-c); border: 1px solid rgba(58,255,212,0.25); }
+    .step-card.violet .step-bullet { background: rgba(155,127,255,0.12); color: var(--accent-v); border: 1px solid rgba(155,127,255,0.25); }
+
+    .step-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 400;
+      line-height: 1.7;
+      flex: 1;
+    }
+    .step-text .hl  { color: var(--accent-c); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+    .step-text .hlv { color: var(--accent-v); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+    .step-text .note { display: block; font-size: 11.5px; color: var(--dim); margin-top: 3px; }
+
+    .step-tip {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 3px;
+      font-size: 12.5px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+    .step-card.cyan   .step-tip { background: var(--glow-c); border: 1px solid var(--border-c); }
+    .step-card.violet .step-tip { background: var(--glow-v); border: 1px solid var(--border-v); }
+    .step-tip strong { font-weight: 500; color: var(--text); }
+
+    /* ── URL SECTION ── */
+    .url-box {
+      background: var(--surface);
+      border: 1px solid var(--border-c);
+      border-radius: 4px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
     }
 
-    .link-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 18px;
-      border: 1px solid var(--surface2);
-      border-radius: 3px;
-      text-decoration: none;
-      color: var(--dim);
-      background: var(--surface);
-      font-size: 13.5px;
-      font-weight: 400;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-
-    .link-item:hover {
-      border-color: var(--border-c);
-      color: var(--text);
-      background: var(--glow-c);
-    }
-
-    .link-item:hover .link-icon { color: var(--accent-c); }
-
-    .link-icon {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      color: var(--muted);
-      transition: color 0.2s;
-      flex-shrink: 0;
-    }
-
-    .link-platform {
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      display: block;
-      color: var(--text);
-      text-transform: uppercase;
-    }
-
-    .link-handle {
+    .url-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--muted);
-      letter-spacing: 0.04em;
-      display: block;
     }
+
+    .url-pattern {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(14px, 2.5vw, 18px);
+      color: var(--accent-c);
+      word-break: break-all;
+      line-height: 1.6;
+    }
+
+    .url-pattern .dim { color: var(--dim); }
+
+    .url-note {
+      font-size: 13px;
+      color: var(--dim);
+      border-top: 1px solid var(--surface2);
+      padding-top: 12px;
+    }
+
+    /* ── FAQ ── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--surface2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      padding: 18px 22px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      user-select: none;
+    }
+    .faq-q:hover { background: var(--surface2); }
+
+    .faq-icon {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-c);
+      font-size: 16px;
+      font-weight: 300;
+      transition: transform 0.25s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      display: none;
+      padding: 16px 22px;
+      font-size: 13.5px;
+      color: var(--dim);
+      line-height: 1.8;
+      border-top: 1px solid var(--surface2);
+      background: rgba(9,14,23,0.4);
+    }
+    .faq-item.open .faq-a { display: block; }
 
     /* ── DIVIDER ── */
     .divider {
@@ -394,12 +449,11 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      .about-grid { grid-template-columns: 1fr; gap: 28px; }
-      .about-text { grid-column: auto; font-size: 15px; }
-      .cards { grid-template-columns: 1fr; }
-      .hero-sub { flex-direction: column; gap: 6px; }
-      .hero-sub .sep { display: none; }
-      .section { padding: 56px 20px; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .step-header { padding: 18px 20px; }
+      .step-body   { padding: 20px; }
+      .url-box     { padding: 20px; }
+      .section     { padding: 56px 20px; }
     }
   </style>
 </head>
@@ -409,16 +463,14 @@
   <section class="hero">
     <canvas id="mol-canvas"></canvas>
     <div class="hero-content">
-      <p class="hero-label">自然科学 × クリエイター</p>
-      <h1 class="hero-name">Katsu</h1>
-      <div class="hero-sub">
-        <span>科学クリエイター</span>
-        <span class="sep"></span>
-        <span>VTuber</span>
-        <span class="sep"></span>
-        <span>埼玉</span>
+      <p class="hero-label">Complete Guide</p>
+      <h1 class="hero-title">GitHub Pages で<br><em>無料ホームページ</em>を<br>公開しよう</h1>
+      <p class="hero-sub">Claude で HTML を作成し、GitHub Pages でWeb公開するまでの完全ガイド。コードの知識がなくても 3 ステップで完成します。</p>
+      <div class="hero-badges">
+        <span class="badge">Step 1 — HTML作成</span>
+        <span class="badge violet">Step 2 — アップロード</span>
+        <span class="badge">Step 3 — Pages設定</span>
       </div>
-      <p class="hero-mono">M.Sc. Catalytic Chemistry</p>
     </div>
     <div class="hero-scroll">
       <div class="scroll-line"></div>
@@ -428,32 +480,168 @@
 
   <hr class="divider">
 
-  <!-- ABOUT -->
+  <!-- OVERVIEW -->
   <section class="section">
-    <p class="section-label">About</p>
-    <div class="about-grid">
-      <p class="about-text">
-        触媒化学の<strong>理学修士</strong>を持つ科学クリエイター。化学の面白さを「難しい教科書の外」に届けることをミッションに、
-        日常の現象・自然・食から科学を読み解くコンテンツを発信しています。
-        <br><br>
-        学術的な正確さを保ちながら、文系の方でも楽しめる言葉を探し続けることが、自分の活動の核にあります。
-      </p>
-      <div class="stats">
-        <div class="stat-row">
-          <span class="stat-key">専門</span>
-          <span class="stat-val">触媒化学・反応化学</span>
+    <p class="section-label">Overview</p>
+    <h2 class="section-title">GitHub Pages とは？</h2>
+    <p class="overview-text">
+      <strong>GitHub Pages</strong> は、GitHub が提供する<strong>無料の Web ホスティングサービス</strong>です。
+      HTML ファイルをアップロードするだけで、誰でもアクセスできる Web ページを公開できます。
+      独自ドメインの取得も不要で、<code style="background:var(--surface2);padding:2px 7px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-c)">username.github.io</code> 形式の URL が自動で発行されます。
+    </p>
+    <div class="overview-grid">
+      <div class="ov-card">
+        <span class="ov-num c">￥0</span>
+        <span class="ov-title">完全無料</span>
+        <span class="ov-desc">サーバー費用もドメイン費用も不要。GitHub アカウントさえあれば始められます。</span>
+      </div>
+      <div class="ov-card">
+        <span class="ov-num v">3</span>
+        <span class="ov-title">ステップで公開</span>
+        <span class="ov-desc">HTML作成 → アップロード → Pages設定の 3 ステップだけ。難しい操作はありません。</span>
+      </div>
+      <div class="ov-card">
+        <span class="ov-num c">AI</span>
+        <span class="ov-title">コード不要</span>
+        <span class="ov-desc">Claude（AI）に「HTML を作成して」と話しかけるだけで、プロ品質のページが完成します。</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- STEPS -->
+  <section class="section">
+    <p class="section-label">How To</p>
+    <h2 class="section-title" style="margin-bottom: 32px;">3ステップで公開する</h2>
+
+    <!-- STEP 1 -->
+    <div class="step-card cyan">
+      <div class="step-header">
+        <div class="step-num-badge">1</div>
+        <div>
+          <p class="step-eyebrow">Step 1</p>
+          <p class="step-name">HTML ファイルを作成する</p>
         </div>
-        <div class="stat-row">
-          <span class="stat-key">学位</span>
-          <span class="stat-val hl">M.Sc.</span>
+      </div>
+      <div class="step-body">
+        <ul class="step-items">
+          <li class="step-item">
+            <span class="step-bullet">1</span>
+            <span class="step-text">
+              Claude（claude.ai）を開く
+              <span class="note">ブラウザまたはデスクトップアプリどちらでも OK</span>
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">2</span>
+            <span class="step-text">
+              チャットに「<span class="hl">自己紹介のホームページを作って。HTML で。</span>」と入力して送信
+              <span class="note">ニックネーム・活動内容・リンクなどを一緒に伝えると、より個性的なページが生成されます</span>
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">3</span>
+            <span class="step-text">
+              Claude がファイルを自動生成するので、チャット内のファイルカードから <span class="hl">index.html</span> をダウンロード
+            </span>
+          </li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 ポイント</strong>　ファイル名は必ず <code style="font-family:'JetBrains Mono',monospace;">index.html</code> にしてください。GitHub Pages はこのファイルを自動でトップページとして認識します。
         </div>
-        <div class="stat-row">
-          <span class="stat-key">拠点</span>
-          <span class="stat-val">埼玉（JR川越線 沿線）</span>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card violet">
+      <div class="step-header">
+        <div class="step-num-badge">2</div>
+        <div>
+          <p class="step-eyebrow">Step 2</p>
+          <p class="step-name">GitHub にファイルをアップロードする</p>
         </div>
-        <div class="stat-row">
-          <span class="stat-key">活動</span>
-          <span class="stat-val">YouTube / Note / X / Instagram</span>
+      </div>
+      <div class="step-body">
+        <ul class="step-items">
+          <li class="step-item">
+            <span class="step-bullet">1</span>
+            <span class="step-text">
+              <a href="https://github.com" target="_blank" rel="noopener" style="color:var(--accent-v);">github.com</a> でアカウントを作成またはログイン
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">2</span>
+            <span class="step-text">
+              右上の「<span class="hlv">＋</span>」→「New repository」で新しいリポジトリを作成
+              <span class="note">Visibility は必ず <strong style="color:#fff">Public</strong>（公開）に設定してください</span>
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">3</span>
+            <span class="step-text">
+              空のリポジトリが表示されたら、ページ中央の「<span class="hlv">既存のファイルをアップロードして</span>」という青いリンクをクリック
+              <span class="note">英語表示の場合は「uploading an existing file」</span>
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">4</span>
+            <span class="step-text">
+              <span class="hlv">index.html</span> をドラッグ＆ドロップしてアップロード
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">5</span>
+            <span class="step-text">
+              ページ下部の「<span class="hlv">Commit changes</span>」ボタンをクリックして保存
+            </span>
+          </li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 ポイント</strong>　リポジトリ名は後で URL の一部になります（例：「mypage」→ <code style="font-family:'JetBrains Mono',monospace;">username.github.io/mypage</code>）。わかりやすい名前にしておきましょう。
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card cyan">
+      <div class="step-header">
+        <div class="step-num-badge">3</div>
+        <div>
+          <p class="step-eyebrow">Step 3</p>
+          <p class="step-name">GitHub Pages を有効化する</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <ul class="step-items">
+          <li class="step-item">
+            <span class="step-bullet">1</span>
+            <span class="step-text">
+              リポジトリ上部のタブから「<span class="hl">Settings（設定）</span>」をクリック
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">2</span>
+            <span class="step-text">
+              左サイドバーの「<span class="hl">Pages</span>」を選択
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">3</span>
+            <span class="step-text">
+              Branch（ブランチ）を <span class="hl">main</span> ／ <span class="hl">(root)</span> に設定して「<span class="hl">Save（保存）</span>」をクリック
+            </span>
+          </li>
+          <li class="step-item">
+            <span class="step-bullet">4</span>
+            <span class="step-text">
+              数分後、同じ Pages 設定ページの上部に公開 URL が表示されます
+              <span class="note">反映に 2〜5 分かかる場合があります。ページを更新して確認してください</span>
+            </span>
+          </li>
+        </ul>
+        <div class="step-tip">
+          <strong>🎉 完成！</strong>　URL が表示されたらページの公開完了です。リンクをクリックして、自分のホームページを確認しましょう。
         </div>
       </div>
     </div>
@@ -461,88 +649,83 @@
 
   <hr class="divider">
 
-  <!-- IDENTITIES -->
+  <!-- URL FORMAT -->
   <section class="section">
-    <p class="section-label">活動</p>
-    <div class="cards">
-
-      <article class="card cyan">
-        <div class="card-accent-line"></div>
-        <p class="card-eyebrow">Identity 01</p>
-        <h2 class="card-name">自然科学VTuber<br>かず</h2>
-        <p class="card-sub">naturescience_k</p>
-        <p class="card-desc">
-          身近な疑問から地球科学・化学反応まで、自然の仕組みを丁寧に読み解く教育チャンネル。
-          科学に少し興味がある方から理系好きの社会人まで、楽しめるコンテンツを届けています。
-        </p>
-        <div class="card-tags">
-          <span class="tag">YouTube</span>
-          <span class="tag">Note</span>
-          <span class="tag">Instagram</span>
-          <span class="tag">自然科学</span>
-          <span class="tag">教育</span>
-        </div>
-      </article>
-
-      <article class="card violet">
-        <div class="card-accent-line"></div>
-        <p class="card-eyebrow">Identity 02</p>
-        <h2 class="card-name">カリウム<br><span style="font-size:20px;opacity:0.7">/ Karilabo</span></h2>
-        <p class="card-sub">Kalium — カリラボ</p>
-        <p class="card-desc">
-          副業VTuberのためのAI活用術と生産性コンテンツを発信。「競争より共創」をモットーに、
-          VTuber同士が支え合えるコミュニティ、カリラボの運営も行っています。
-        </p>
-        <div class="card-tags">
-          <span class="tag">AI活用</span>
-          <span class="tag">VTuberサポート</span>
-          <span class="tag">コミュニティ</span>
-          <span class="tag">副業</span>
-        </div>
-      </article>
-
+    <p class="section-label">URL</p>
+    <h2 class="section-title">公開後のURL形式</h2>
+    <div class="url-box">
+      <p class="url-label">Your page URL</p>
+      <p class="url-pattern">https://<span style="color:#fff">ユーザー名</span>.github.io<span class="dim">/</span><span style="color:#fff">リポジトリ名</span><span class="dim">/</span></p>
+      <p class="url-note">
+        例：ユーザー名が <code style="font-family:'JetBrains Mono',monospace;color:var(--accent-c)">naturesciencekazu</code>、リポジトリ名が <code style="font-family:'JetBrains Mono',monospace;color:var(--accent-c)">mypage</code> の場合<br>
+        → <code style="font-family:'JetBrains Mono',monospace;color:#fff">https://naturesciencekazu.github.io/mypage/</code>
+      </p>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- LINKS -->
+  <!-- FAQ -->
   <section class="section">
-    <p class="section-label">Links</p>
-    <div class="links-grid">
-      <a class="link-item" href="https://note.com/naturescience_k/" target="_blank" rel="noopener">
-        <span class="link-icon">✦</span>
-        <span>
-          <span class="link-platform">Note</span>
-          <span class="link-handle">@naturescience_k</span>
-        </span>
-      </a>
-      <a class="link-item" href="https://x.com/naturescience_k" target="_blank" rel="noopener">
-        <span class="link-icon">✦</span>
-        <span>
-          <span class="link-platform">X</span>
-          <span class="link-handle">@naturescience_k</span>
-        </span>
-      </a>
-      <a class="link-item" href="https://www.instagram.com/naturescience_k/" target="_blank" rel="noopener">
-        <span class="link-icon">✦</span>
-        <span>
-          <span class="link-platform">Instagram</span>
-          <span class="link-handle">@naturescience_k</span>
-        </span>
-      </a>
-      <a class="link-item" href="https://www.youtube.com/@naturescience_k" target="_blank" rel="noopener">
-        <span class="link-icon">✦</span>
-        <span>
-          <span class="link-platform">YouTube</span>
-          <span class="link-handle">自然科学VTuberかず</span>
-        </span>
-      </a>
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">よくある質問</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>GitHub アカウントの作り方は？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          github.com にアクセスし「Sign up」からメールアドレスとパスワードを登録するだけです。無料プランで GitHub Pages を使うことができます。登録後にメール認証があるので、受信ボックスを確認してください。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>ページを更新したいときはどうすれば良い？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Claude に「前回のHTMLをもとに〇〇を追加して」と伝えて新しい index.html を生成し、GitHub のリポジトリページから再びアップロードするだけです。同じファイル名でアップロードすると自動的に上書きされます。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>アップロードした後、すぐにページが表示されない</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          GitHub Pages の反映には通常 2〜5 分かかります。Settings → Pages を再度開くと公開 URL が表示されますが、リンクが有効になるまで少し待ってからアクセスしてみてください。ブラウザのキャッシュが残っている場合は Ctrl＋Shift＋R（Mac: Cmd＋Shift＋R）でキャッシュクリアを試してください。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>リポジトリを Private にしたらページは消える？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          無料プランでは、リポジトリを Private にすると GitHub Pages も非公開になります。ページを公開し続けるには、リポジトリを Public のままにしておくか、GitHub Pro（有料プラン）にアップグレードする必要があります。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>画像や複数ファイルも使える？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          はい。複数のファイルをまとめてアップロードすることもできます。ただし、Claude が生成するページはすべての CSS・画像・JavaScript を 1 つの HTML ファイルに埋め込む形式なので、基本的には index.html だけで完結します。
+        </div>
+      </div>
+
     </div>
   </section>
 
   <footer>
-    &copy; 2026 Katsu — 触媒化学 M.Sc. &nbsp;·&nbsp; All rights reserved
+    GitHub Pages Guide &nbsp;·&nbsp; Made with Claude &nbsp;·&nbsp; 2026
   </footer>
 
   <script>
@@ -622,10 +805,7 @@
 
       const ro = new ResizeObserver(() => { resize(); seed(); });
       ro.observe(canvas);
-
-      resize();
-      seed();
-      frame();
+      resize(); seed(); frame();
     })();
   </script>
 
