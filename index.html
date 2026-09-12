@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katsu — 科学クリエイター × VTuber</title>
+  <meta name="description" content="触媒化学 M.Sc. の科学クリエイター。自然科学VTuberかず・カリウム（カリラボ）として活動中。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg:       #090E17;
+      --surface:  #111827;
+      --surface2: #192236;
+      --accent-c: #3AFFD4;
+      --accent-v: #9B7FFF;
+      --text:     #DDE8F2;
+      --dim:      #8FA8C0;
+      --muted:    #3E5A72;
+      --border-c: rgba(58, 255, 212, 0.14);
+      --border-v: rgba(155, 127, 255, 0.16);
+      --glow-c:   rgba(58, 255, 212, 0.06);
+      --glow-v:   rgba(155, 127, 255, 0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      font-size: 15px;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+    }
+
+    #mol-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.85;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--accent-c);
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(64px, 12vw, 120px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-shadow: 0 0 60px rgba(58, 255, 212, 0.15);
+    }
+
+    .hero-sub {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-sub .sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .hero-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent-v);
+      opacity: 0.7;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, var(--accent-c), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 0.9; transform: scaleY(1.15); }
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--surface2), transparent);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 60px;
+      align-items: start;
+    }
+
+    .about-text {
+      grid-column: 1 / -1;
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--text);
+      max-width: 62ch;
+    }
+
+    .about-text strong {
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .stats {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .stat-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+      min-width: 80px;
+    }
+
+    .stat-val {
+      font-size: 13.5px;
+      color: var(--dim);
+      font-weight: 400;
+    }
+
+    .stat-val.hl { color: var(--accent-c); }
+
+    /* ── IDENTITY CARDS ── */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid;
+      border-radius: 4px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-glow);
+      pointer-events: none;
+    }
+
+    .card.cyan   { --card-glow: var(--glow-c); border-color: var(--border-c); }
+    .card.violet { --card-glow: var(--glow-v); border-color: var(--border-v); }
+
+    .card-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .card.cyan   .card-eyebrow { color: var(--accent-c); }
+    .card.violet .card-eyebrow { color: var(--accent-v); }
+
+    .card-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      text-wrap: balance;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--dim);
+      margin-top: -8px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.85;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 9px;
+      border-radius: 2px;
+    }
+
+    .card.cyan   .tag { background: rgba(58,255,212,0.08); color: var(--accent-c); border: 1px solid rgba(58,255,212,0.20); }
+    .card.violet .tag { background: rgba(155,127,255,0.08); color: var(--accent-v); border: 1px solid rgba(155,127,255,0.20); }
+
+    .card-accent-line {
+      position: absolute;
+      top: 0; left: 0;
+      height: 2px;
+      width: 48px;
+    }
+
+    .card.cyan   .card-accent-line { background: var(--accent-c); box-shadow: 0 0 8px var(--accent-c); }
+    .card.violet .card-accent-line { background: var(--accent-v); box-shadow: 0 0 8px var(--accent-v); }
+
+    /* ── LINKS ── */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border: 1px solid var(--surface2);
+      border-radius: 3px;
+      text-decoration: none;
+      color: var(--dim);
+      background: var(--surface);
+      font-size: 13.5px;
+      font-weight: 400;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .link-item:hover {
+      border-color: var(--border-c);
+      color: var(--text);
+      background: var(--glow-c);
+    }
+
+    .link-item:hover .link-icon { color: var(--accent-c); }
+
+    .link-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--muted);
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .link-platform {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      display: block;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .link-handle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: block;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--surface2) 30%, var(--surface2) 70%, transparent);
+      margin: 0 24px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px 48px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-line { animation: none; }
+      * { transition: none !important; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; gap: 28px; }
+      .about-text { grid-column: auto; font-size: 15px; }
+      .cards { grid-template-columns: 1fr; }
+      .hero-sub { flex-direction: column; gap: 6px; }
+      .hero-sub .sep { display: none; }
+      .section { padding: 56px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="mol-canvas"></canvas>
+    <div class="hero-content">
+      <p class="hero-label">自然科学 × クリエイター</p>
+      <h1 class="hero-name">Katsu</h1>
+      <div class="hero-sub">
+        <span>科学クリエイター</span>
+        <span class="sep"></span>
+        <span>VTuber</span>
+        <span class="sep"></span>
+        <span>埼玉</span>
+      </div>
+      <p class="hero-mono">M.Sc. Catalytic Chemistry</p>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ABOUT -->
+  <section class="section">
+    <p class="section-label">About</p>
+    <div class="about-grid">
+      <p class="about-text">
+        触媒化学の<strong>理学修士</strong>を持つ科学クリエイター。化学の面白さを「難しい教科書の外」に届けることをミッションに、
+        日常の現象・自然・食から科学を読み解くコンテンツを発信しています。
+        <br><br>
+        学術的な正確さを保ちながら、文系の方でも楽しめる言葉を探し続けることが、自分の活動の核にあります。
+      </p>
+      <div class="stats">
+        <div class="stat-row">
+          <span class="stat-key">専門</span>
+          <span class="stat-val">触媒化学・反応化学</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">学位</span>
+          <span class="stat-val hl">M.Sc.</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">拠点</span>
+          <span class="stat-val">埼玉（JR川越線 沿線）</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">活動</span>
+          <span class="stat-val">YouTube / Note / X / Instagram</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- IDENTITIES -->
+  <section class="section">
+    <p class="section-label">活動</p>
+    <div class="cards">
+
+      <article class="card cyan">
+        <div class="card-accent-line"></div>
+        <p class="card-eyebrow">Identity 01</p>
+        <h2 class="card-name">自然科学VTuber<br>かず</h2>
+        <p class="card-sub">naturescience_k</p>
+        <p class="card-desc">
+          身近な疑問から地球科学・化学反応まで、自然の仕組みを丁寧に読み解く教育チャンネル。
+          科学に少し興味がある方から理系好きの社会人まで、楽しめるコンテンツを届けています。
+        </p>
+        <div class="card-tags">
+          <span class="tag">YouTube</span>
+          <span class="tag">Note</span>
+          <span class="tag">Instagram</span>
+          <span class="tag">自然科学</span>
+          <span class="tag">教育</span>
+        </div>
+      </article>
+
+      <article class="card violet">
+        <div class="card-accent-line"></div>
+        <p class="card-eyebrow">Identity 02</p>
+        <h2 class="card-name">カリウム<br><span style="font-size:20px;opacity:0.7">/ Karilabo</span></h2>
+        <p class="card-sub">Kalium — カリラボ</p>
+        <p class="card-desc">
+          副業VTuberのためのAI活用術と生産性コンテンツを発信。「競争より共創」をモットーに、
+          VTuber同士が支え合えるコミュニティ、カリラボの運営も行っています。
+        </p>
+        <div class="card-tags">
+          <span class="tag">AI活用</span>
+          <span class="tag">VTuberサポート</span>
+          <span class="tag">コミュニティ</span>
+          <span class="tag">副業</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- LINKS -->
+  <section class="section">
+    <p class="section-label">Links</p>
+    <div class="links-grid">
+      <a class="link-item" href="https://note.com/naturescience_k/" target="_blank" rel="noopener">
+        <span class="link-icon">✦</span>
+        <span>
+          <span class="link-platform">Note</span>
+          <span class="link-handle">@naturescience_k</span>
+        </span>
+      </a>
+      <a class="link-item" href="https://x.com/naturescience_k" target="_blank" rel="noopener">
+        <span class="link-icon">✦</span>
+        <span>
+          <span class="link-platform">X</span>
+          <span class="link-handle">@naturescience_k</span>
+        </span>
+      </a>
+      <a class="link-item" href="https://www.instagram.com/naturescience_k/" target="_blank" rel="noopener">
+        <span class="link-icon">✦</span>
+        <span>
+          <span class="link-platform">Instagram</span>
+          <span class="link-handle">@naturescience_k</span>
+        </span>
+      </a>
+      <a class="link-item" href="https://www.youtube.com/@naturescience_k" target="_blank" rel="noopener">
+        <span class="link-icon">✦</span>
+        <span>
+          <span class="link-platform">YouTube</span>
+          <span class="link-handle">自然科学VTuberかず</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 Katsu — 触媒化学 M.Sc. &nbsp;·&nbsp; All rights reserved
+  </footer>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('mol-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      const CYAN   = [58,  255, 212];
+      const VIOLET = [155, 127, 255];
+      const N      = 72;
+      const D_MAX  = 160;
+
+      let W, H, nodes = [];
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+
+      function seed() {
+        nodes = [];
+        for (let i = 0; i < N; i++) {
+          const c = Math.random() > 0.55 ? CYAN : VIOLET;
+          nodes.push({
+            x:  Math.random() * W,
+            y:  Math.random() * H,
+            vx: (Math.random() - 0.5) * 0.28,
+            vy: (Math.random() - 0.5) * 0.28,
+            r:  Math.random() * 1.6 + 0.6,
+            c:  c
+          });
+        }
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+
+        if (!reduced) {
+          nodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if (n.x < -10)    n.x = W + 10;
+            if (n.x > W + 10) n.x = -10;
+            if (n.y < -10)    n.y = H + 10;
+            if (n.y > H + 10) n.y = -10;
+          });
+        }
+
+        for (let i = 0; i < N; i++) {
+          for (let j = i + 1; j < N; j++) {
+            const dx   = nodes[j].x - nodes[i].x;
+            const dy   = nodes[j].y - nodes[i].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < D_MAX) {
+              const t = 1 - dist / D_MAX;
+              const [r, g, b] = nodes[i].c;
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle = `rgba(${r},${g},${b},${(t * t * 0.22).toFixed(3)})`;
+              ctx.lineWidth   = t * 1.1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        nodes.forEach(n => {
+          const [r, g, b] = n.c;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
+          ctx.fill();
+        });
+
+        requestAnimationFrame(frame);
+      }
+
+      const ro = new ResizeObserver(() => { resize(); seed(); });
+      ro.observe(canvas);
+
+      resize();
+      seed();
+      frame();
+    })();
+  </script>
+
+</body>
+</html>
